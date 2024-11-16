@@ -64,7 +64,7 @@ def test(test_loader, Eva_test, save_path, net , test_path):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--load', type=str, default='/root/data1/STFF-GA/checkpoints/LEVIR/best_train.pth', help='model') # best_train
+    parser.add_argument('--load', type=str, default='/root/data1/STFF-GA/checkpoints/LEVIR/205.pth', help='model') # best_train
     parser.add_argument('--save_path', type=str, default='', help='test result path')
     parser.add_argument('--test_root', type=str, default='', help='test data path')
     parser.add_argument('--batchsize', type=int, default=64, help='training batch size')
