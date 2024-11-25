@@ -1,4 +1,4 @@
-# STFF-GA
+# STFF-GA: Spatio-Temporal Feature Fusion and Guide Aggregation Network for Remote Sensing Change Detection
 
 H. Wei et al., "Spatio-Temporal Feature Fusion and Guide Aggregation Network for Remote Sensing Change Detection," in IEEE Transactions on Geoscience and Remote Sensing, vol. 62, pp. 1-16, 2024, Art no. 5642216, doi: 10.1109/TGRS.2024.3470314.
 
