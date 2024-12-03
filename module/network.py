@@ -115,20 +115,6 @@ class Self_Attention(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
         self.relu = nn.ReLU(inplace=True)
 
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-
     def forward(self, x):
         m_batchsize, C, height, width = x.size()
         query = self.query_conv(x)
@@ -220,20 +206,6 @@ class STFFGA(nn.Module):
 
         self.decoder_final = nn.Sequential(BasicConv2d(128, 64, 3, 1, 1),
                                        nn.Conv2d(64, 1, 1))
-
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
 
     def forward(self, A, B):
         size = A.size()[2:]
