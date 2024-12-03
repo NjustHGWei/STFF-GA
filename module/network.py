@@ -63,20 +63,6 @@ class BasicConv2d(nn.Module):
         nn.ReLU(inplace=True)
         )
 
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-
     def forward(self, x):
         x = self.conv(x)
         return x
@@ -90,20 +76,6 @@ class DepthWiseConv(nn.Module):
         self.point_conv = nn.Conv2d(in_channels=in_channel,
                                     out_channels=out_channel,
                                     kernel_size=1, stride=1, padding=0, groups=1)
-
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
 
     def forward(self, input):
         out = self.depth_conv(input)
@@ -187,20 +159,6 @@ class DeepFeatureGuideModule(nn.Module):
                                   Self_Attention(256),
                                   nn.Conv2d(256, 1, 1))
 
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-
     def forward(self, x, y):
         size = x.size()[2:4]
         y = self.conv11(y)
@@ -212,7 +170,6 @@ class DeepFeatureGuideModule(nn.Module):
 class GuideAggregationModule(nn.Module):
     def __init__(self, channel, out_c):
         super().__init__()
-        self.C = [512, 256, 128]
         self.conv11 = BasicConv2d(channel, channel // 2, kernel_size=1)
 
         self.conv13 = nn.Conv2d(channel // 2, channel // 2, (1, 3), padding=(0, 1))
@@ -223,20 +180,6 @@ class GuideAggregationModule(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
         self.conv11_2 = BasicConv2d(channel // 2, out_c, kernel_size=1)
-
-    def init_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
-            elif isinstance(m, nn.BatchNorm2d):
-                init.constant_(m.weight, 1)
-                init.constant_(m.bias, 0)
-            elif isinstance(m, nn.Linear):
-                init.normal_(m.weight, std=0.001)
-                if m.bias is not None:
-                    init.constant_(m.bias, 0)
 
     def forward(self, x, y, dfg):
         xy = torch.cat([x, y], dim=1)
